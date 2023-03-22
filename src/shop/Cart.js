@@ -2,9 +2,15 @@ import { useState } from "react";
 
 const Cart = ({ cart, setCart, shopData }) => {
 
-    const [num, setNum] = useState(1)
 
-    const allPrice = cart.reduce((current, next) => current + Number((next.price) * num), 0);
+    const allPrice = cart.reduce((current, next) => current + Number(next.price * next.num), 0);
+
+    // cart 배열 수정하기
+    const cartModify = (id) => {
+        console.log(id, cart);
+        const newCart = cart.map(it => it.id === id ? { ...it, num: it.num + 1 } : it);
+        setCart(newCart);
+    }
 
 
     return (
@@ -14,7 +20,13 @@ const Cart = ({ cart, setCart, shopData }) => {
                 장바구니
             </h1>
             {
-                cart.map((it) => <li>{it.name}{it.desc}{it.price}{num} <button onClick={() => setNum(num + 1)}>+</button>
+                cart.map((it) => <li>
+                    {it.id}
+                    {it.name}
+                    {it.desc}
+                    {it.price}
+                    {it.num}
+                    <button onClick={() => { cartModify(it.id) }}>+</button>
                     <img src={it.img} alt="" />
                 </li>)
             }

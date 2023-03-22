@@ -33,7 +33,7 @@ const App = () => {
 
     return (
         <Routes>
-            <Route path="/" element={<Layout categoryItm={categoryItm} />}>
+            <Route path="/" element={<Layout categoryItm={categoryItm} cart={cart} />}>
                 <Route index element={<List />} />
                 <Route path="all" element={<ListAll shopData={shopData} />} />
                 <Route path=":cate" element={<CateList shopData={shopData} />} />
