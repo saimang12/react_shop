@@ -1,15 +1,9 @@
 const ListAll = ({ shopData }) => {
+
     return (
-        <ul>
-            {
-                shopData.map((it, idx) => {
-                    return (
-                        <li>{it.name}</li>
-                    )
-                })
-            }
-        </ul>
+        <>
+            {shopData.map(it => <li key={it.id}>{it.name}</li>)}
+        </>
     )
 }
-
 export default ListAll;

@@ -1,7 +1,6 @@
 const List = () => {
     return (
-        <>List</>
+        <>list</>
     )
 }
-
 export default List;

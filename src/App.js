@@ -1,35 +1,45 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
-import styled from "styled-components";
 import Layout from "./Layout";
-import Nav from "./pages/Nav";
+import Cart from "./shop/Cart";
+import CateList from "./shop/CateList";
+import Itm from "./shop/Itm";
 import List from "./shop/List";
 import ListAll from "./shop/ListAll";
+import SearchResult from "./shop/SearchResult";
 
 
 const App = () => {
-    // 데이터 가져오기 ... state에 배열(쇼핑몰데이터)넣기
+
     const [shopData, setShopData] = useState([]);
-    // 데이터 불러오는 함수 만들기 ...
+    const [cart, setCart] = useState([])
+    const url = 'https://desipossa.github.io/shop_cra/assets/data.json'
+
     const getData = async () => {
-        const url = 'https://desipossa.github.io/shop_cra/assets/data.json'
-        // 데이터 가져오기 ...
         const r = await axios.get(url);
         setShopData(r.data);
     }
-    // 데이터 한번만 불러오기 ...
+
     useEffect(() => {
         getData();
     }, []);
 
-    console.log(shopData);
+    const originalItm = shopData.map(it => it.category);
+    const filterItm = originalItm.filter(Boolean);
+    const categoryItm = [...new Set(filterItm)];
+
+    console.log(categoryItm)
 
     return (
         <Routes>
-            <Route path="/" element={<Layout />}>
-                <Route path="/" element={<List />} />
-                <Route path="/all" element={<ListAll shopData={shopData} />} />
+            <Route path="/" element={<Layout categoryItm={categoryItm} />}>
+                <Route index element={<List />} />
+                <Route path="all" element={<ListAll shopData={shopData} />} />
+                <Route path=":cate" element={<CateList shopData={shopData} />} />
+                <Route path="detail/:itm" element={<Itm shopData={shopData} cart={cart} setCart={setCart} />} />
+                <Route path="search" element={<SearchResult shopData={shopData} />} />
+                <Route path="cart" element={<Cart shopData={shopData} cart={cart} setCart={setCart} />} />
             </Route>
         </Routes>
     )
